@@ -1,4 +1,4 @@
-import Footer from './Footer'
+
 import Navbar from './Navbar'
 
 const links = [
@@ -75,7 +75,6 @@ export default function HomeContent() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

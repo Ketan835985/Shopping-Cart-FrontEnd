@@ -1,5 +1,6 @@
 import { useState } from "react"
 import "./register.css"
+import Navbar from './Navbar'
 
 export default function Register() {
     const [formData, setFormData] = useState({
@@ -29,6 +30,7 @@ export default function Register() {
     }
     return (
         <>
+        <Navbar/>
             <form onSubmit={handleSubmit} className="flex m-auto justify-center ">
                 <div className="outer">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
@@ -216,7 +218,7 @@ export default function Register() {
                                         <input
                                             required
                                             type="text"
-                                            name="postal-code"
+                                            name="pin"
                                             id="postal-code"
                                             autoComplete="postal-code"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
@@ -237,6 +239,7 @@ export default function Register() {
                     </div>
                 </div>
             </form>
+            
         </>
     )
 }
