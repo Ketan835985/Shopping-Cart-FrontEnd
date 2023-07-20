@@ -18,7 +18,7 @@ export default function Register() {
 
     const handleOnchange = (event) => {
         event.preventDefault();
-        console.log(event.target.value);
+        // console.log(event.target.value);
         setFormData({
             ...formData,
             [event.target.name]: event.target.value
@@ -26,7 +26,24 @@ export default function Register() {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(formData);
+        // console.log(formData);
+        fetch("http://localhost:5000/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+                console.log(res);
+                if (res.status== true) {
+                    window.location.href = "/login"
+                }
+                else{
+                    alert(res.message)
+                }
+            })
     }
     return (
         <>
@@ -79,7 +96,7 @@ export default function Register() {
                                         <input
                                             required
                                             type="text"
-                                            name="first-name"
+                                            name="fname"
                                             id="first-name"
                                             autoComplete="given-name"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
@@ -96,7 +113,7 @@ export default function Register() {
                                         <input
                                             required
                                             type="text"
-                                            name="last-name"
+                                            name="lname"
                                             id="last-name"
                                             autoComplete="family-name"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
@@ -167,7 +184,7 @@ export default function Register() {
                                         <input
                                             required
                                             type="text"
-                                            name="street-address"
+                                            name="address"
                                             id="street-address"
                                             autoComplete="street-address"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
