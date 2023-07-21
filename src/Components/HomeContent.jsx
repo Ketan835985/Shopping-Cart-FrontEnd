@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import logo from './noun-shopping-17962.svg'
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Features', href: '#' },
-  { name: 'Market', href: '#' },
+  { name: 'Features', href: '/ProductView' },
+  { name: 'Market', href: '/Products' },
   { name: 'Company About', href: '/About' },
 ]
 
@@ -21,7 +22,7 @@ export default function Example() {
               <span className="sr-only">Shopping Cart</span>
               <img
                 className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                src={logo}
                 alt=""
               />
             </a>

@@ -2,7 +2,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-// import logo from './noun-shopping-17962.svg'
+import logo from './noun-shopping-17962.svg'
 
 const navigation = {
     categories: [
@@ -122,7 +122,7 @@ const navigation = {
         },
     ],
     pages: [
-        { name: 'Company', href: '#' },
+        { name: 'Company', href: '/About' },
         { name: 'Stores', href: '#' },
     ],
 }
@@ -291,11 +291,11 @@ export default function Footer() {
 
                             {/* Logo */}
                             <div className="ml-4 flex lg:ml-0">
-                                <a href="#">
+                                <a href="/">
                                     <span className="sr-only">Shopping Cart</span>
                                     <img
                                         className="h-8 w-auto"
-                                        src = 'logo'
+                                        src = {logo}
                                         alt=""
                                     />
                                 </a>
