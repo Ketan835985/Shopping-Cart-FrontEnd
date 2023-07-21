@@ -4,50 +4,69 @@ import Navbar from './Navbar'
 
 export default function Register() {
     const [formData, setFormData] = useState({
-        name: "",
+        fname: "",
+        lname: "",
         email: "",
+        phone: "",
         password: "",
-        PhoneNumber: "",
-        address: "",
-        city: "",
-        state: "",
-        country: "",
-        postalCode: "",
-        profileImage: "",
+        "address[billing][street]": "",
+        "address[billing][city]": "",
+        "address[billing][pincode]": "",
+        "address[shipping][street]": "",
+        "address[shipping][pincode]": "",
+        "address[shipping][city]": "",
     })
+    const [img , setImg] = useState(null)
+    const [profileImage, setProfileImage] = useState(null);
+    const handleImageChange = (event) => {
+        setProfileImage(event.target.files[0]);
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onloadend = (e) => {
+            setImg(e.target.result);
+        };
+    };
 
     const handleOnchange = (event) => {
         event.preventDefault();
-        // console.log(event.target.value);
         setFormData({
             ...formData,
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         })
     }
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // console.log(formData);
-        fetch("http://localhost:5000/api/register", {
+        
+        const dataUser = new FormData()
+        for (const key in formData) {
+            dataUser.append(key, formData[key]);
+        }
+        // console.log(profileImage);
+        dataUser.append("profileImage",profileImage);
+        await fetch("http://localhost:3000/register", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
+                // "Content-Type": "application/x-www-form-urlencoded",
+                // Accept: "application/json",
             },
-            body: JSON.stringify(formData),
+            body: dataUser
+            
         })
-          .then((res) => res.json())
-          .then((res) => {
+            .then((res) => res.json())
+            .then((res) => {
                 console.log(res);
-                if (res.status== true) {
+                if (res.status == true) {
                     window.location.href = "/login"
                 }
-                else{
+                else {
                     alert(res.message)
                 }
             })
     }
     return (
         <>
-        <Navbar/>
+            <Navbar />
             <form onSubmit={handleSubmit} className="flex m-auto justify-center ">
                 <div className="outer">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
@@ -57,7 +76,7 @@ export default function Register() {
                         <br></br>
                         <div className="flex text-center gap-3 justify-center ">
                             <div className="input-div flex">
-                                <input className="input" name="profileImage" type="file" aria-required onChange={handleOnchange} />
+                                <input className="input" name="profileImage" type="file" aria-required onChange={handleImageChange} />
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="1em"
@@ -75,14 +94,13 @@ export default function Register() {
                                     <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3" />
                                     <polyline points="16 16 12 12 8 16" />
                                 </svg>
+                                <div> <img src={img} /></div>
                             </div>
                             <div className="text-orange-900 align-middle mt-5"> Upload your Profile Image</div>
                         </div>
                         <span className="message">File selected!</span>
                     </div>
-
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm"></div>
-
                     <div className="space-y-12">
                         <div className="border-b border-gray-900/10 pb-12">
                             <h2 className="text-base font-bold leading-7 text-gray-900">Personal Information</h2>
@@ -147,7 +165,7 @@ export default function Register() {
                                         <input
                                             required
                                             id="Phone"
-                                            name="PhoneNumber"
+                                            name="phone"
                                             type="number"
                                             autoComplete="Number"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
@@ -156,36 +174,36 @@ export default function Register() {
                                     </div>
                                 </div>
 
-                                <div className="sm:col-span-3">
-                                    <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Country
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="Number" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Password :
                                     </label>
                                     <div className="mt-2">
-                                        <select
+                                        <input
                                             required
-                                            id="country"
-                                            name="country"
-                                            autoComplete="country-name"
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 p-3"
+                                            id="Password"
+                                            name="password"
+                                            type="password"
+                                            autoComplete="Number"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
                                             onChange={handleOnchange}
-                                        >
-                                            <option>United States</option>
-                                            <option>Canada</option>
-                                            <option>Mexico</option>
-                                        </select>
+                                        />
                                     </div>
                                 </div>
 
                                 <div className="col-span-full">
+                                    <h2 className="text-gray-700">
+                                        Billing Address :
+                                    </h2>
                                     <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Street address
+                                        Street
                                     </label>
                                     <div className="mt-2">
                                         <input
                                             required
                                             type="text"
-                                            name="address"
-                                            id="street-address"
+                                            name="address[billing][street]"
+                                            id="address[billing][street]"
                                             autoComplete="street-address"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
                                             onChange={handleOnchange}
@@ -201,26 +219,60 @@ export default function Register() {
                                         <input
                                             required
                                             type="text"
-                                            name="city"
-                                            id="city"
+                                            name="address[billing][city]"
+                                            id="address[billing][city]"
                                             autoComplete="address-level2"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
                                             onChange={handleOnchange}
                                         />
                                     </div>
                                 </div>
-
                                 <div className="sm:col-span-2">
-                                    <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
-                                        State / Province
+                                    <label htmlFor="postal-code" className="block text-sm font-medium leading-6 text-gray-900">
+                                        ZIP / Postal code
                                     </label>
                                     <div className="mt-2">
                                         <input
                                             required
                                             type="text"
-                                            name="region"
-                                            id="region"
-                                            autoComplete="address-level1"
+                                            name="address[billing][pincode]"
+                                            id="address[billing][pincode]"
+                                            autoComplete="postal-code"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
+                                            onChange={handleOnchange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-span-full">
+                                    <h2 className="text-gray-700">
+                                        Shipping Address :
+                                    </h2>
+                                    <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Street
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            required
+                                            type="text"
+                                            name="address[shipping][street]"
+                                            id="street-address"
+                                            autoComplete="street-address"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
+                                            onChange={handleOnchange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="sm:col-span-2 sm:col-start-1">
+                                    <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
+                                        City
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            required
+                                            type="text"
+                                            name="address[shipping][city]"
+                                            id="city"
+                                            autoComplete="address-level2"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
                                             onChange={handleOnchange}
                                         />
@@ -235,7 +287,7 @@ export default function Register() {
                                         <input
                                             required
                                             type="text"
-                                            name="pin"
+                                            name="address[shipping][pincode]"
                                             id="postal-code"
                                             autoComplete="postal-code"
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
@@ -243,20 +295,26 @@ export default function Register() {
                                         />
                                     </div>
                                 </div>
-                                <div>
-                                    <button
-                                        type="submit"
-                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    >
-                                        Sign Up
-                                    </button>
-                                </div>
+                            </div>
+                            <div className="flex">
+                                <button
+                                    type="submit"
+                                    className="flex w-half justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-4 mr-6 "
+                                >
+                                    Sign Up
+                                </button>
+                                <button
+                                    className="flex w-half justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-4 mr-6"
+                                >
+                                    Sign In
+                                </button>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
-            
+
         </>
     )
 }
