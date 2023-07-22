@@ -1,7 +1,9 @@
-
-import { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import Navbar from './Navbar'
+import { useState ,useEffect} from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
+import { useParams } from 'react-router-dom'
 
 const product = {
   name: 'Basic Tee 6-Pack',
@@ -64,8 +66,25 @@ function classNames(...classes) {
 export default function ProductView() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+  const [product2, setProduct] = useState({})
+  const {productId} = useParams()
+
+  const fetchData = async () =>{
+    // console.log(productId.slice(1))
+    const data = await fetch(`http://localhost:3000/products/${productId.slice(1)}`)
+    const json = await data.json() 
+    console.log(json) 
+    return json.data
+  }
+  useEffect(() => {
+    fetchData().then((data) => {
+          setProduct(data)
+        })
+  },[])
 
   return (
+    <>
+    <Navbar />
     <div className="bg-white">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
@@ -101,7 +120,7 @@ export default function ProductView() {
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
             <img
-              src={product.images[0].src}
+              src={product.ProductImage}
               alt={product.images[0].alt}
               className="h-full w-full object-cover object-center"
             />
@@ -308,5 +327,6 @@ export default function ProductView() {
         </div>
       </div>
     </div>
+    </>
   )
 }
