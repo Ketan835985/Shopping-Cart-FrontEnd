@@ -70,12 +70,13 @@ export default function ProductView() {
   const {productId} = useParams()
 
   const fetchData = async () =>{
-    // console.log(productId.slice(1))
-    const data = await fetch(`http://localhost:3000/products/${productId.slice(1)}`)
+    // console.log(productId)
+    const data = await fetch(`http://localhost:3000/products/${productId}`)
     const json = await data.json() 
-    console.log(json) 
+    // console.log(json) 
+    console.log(product2)
     return json.data
-  }
+  }           
   useEffect(() => {
     fetchData().then((data) => {
           setProduct(data)
@@ -120,7 +121,7 @@ export default function ProductView() {
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
             <img
-              src={product.ProductImage}
+              src={product2.productImage}
               alt={product.images[0].alt}
               className="h-full w-full object-cover object-center"
             />

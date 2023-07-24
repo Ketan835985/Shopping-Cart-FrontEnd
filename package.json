@@ -17,7 +17,8 @@
     "@mui/joy": "^5.0.0-alpha.87",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.14",
