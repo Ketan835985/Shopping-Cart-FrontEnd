@@ -1,30 +1,71 @@
 
-import { UserCircleIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
+import Navbar from './Navbar';
 
 export default function Example() {
-    const [product, setProduct] = useState({
+    const [productData, setProduct] = useState({
         title: '',
         price: '',
         description: '',
         files: '',
-        installments: '',
-        isFreeShipping: '',
-        currencyFormat: '',
-        currencyId: '',
+        installments: 0,
+        isFreeShipping: false, // Updated to default to false for boolean field
+        currencyFormat: '₹', // Set a default currency format
+        currencyId: 'INR', // Set a default currency ID
+        availableSizes: '',
+        style: '', 
     });
-
-    const handelOnchange = (e) => {
-        setProduct({ ...product, [e.target.name]: e.target.value });
+    const [img, setImg] = useState(null)
+    const [productImage, setProductImage] = useState(null);
+    const handleImageChange = (event) => {
+        setProductImage(event.target.files[0]);
+        // console.log(event.target.files[0])
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onloadend = (e) => {
+            setImg(e.target.result);
+        };
     };
 
-    const handelSubmit = (e) => {
+    const handleOnChange = (e) => {
+        const { name, value, type } = e.target;
+        const newValue = type === 'radio' ? e.target.value === 'true' : value;
+
+        setProduct({ ...productData, [name]: newValue });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(product); 
+        const dataProduct = new FormData()
+        for (const key in productData) {
+            dataProduct.append(key, productData[key]);
+        }
+        dataProduct.append("productImage", productImage);
+        // console.log(dataProduct)
+        await fetch('http://localhost:3000/products', {
+            method: 'POST',
+            // headers: { 'Content-Type': 'application/json' },
+            body: dataProduct
+        })
+            .then(res => res.json())
+            .then(res => {
+                // console.log(res.data)
+                if (res.status == true) {
+                    alert("Product Added Successfully")
+                    // console.log(res.data)
+                }
+                else {
+                    alert(res.message);
+                }
+            });
+
+            setProduct(productData)
     };
 
     return (
-        <form onSubmit={handelSubmit}>
+        <>
+        <Navbar/>
+        <form onSubmit={handleSubmit}>
             <div className="space-y-10 flex justify-center gap-y-7">
                 <div className="border-b border-gray-900/10 pb-12">
                     <h2 className="text-base font-bold leading-7 text-gray-900">Product Creation Form</h2>
@@ -38,8 +79,9 @@ export default function Example() {
                                 Product Image*
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">
-                                <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
+                                <div> <img src={img} className="h-12 w-12 text-gray-300" aria-hidden="true" /></div>
                                 <input
+                                    onChange={handleImageChange}
                                     required
                                     name="files"
                                     type="file"
@@ -53,25 +95,25 @@ export default function Example() {
                             </label>
                             <div className="mt-2">
                                 <input
-                                    onChange={handelOnchange}
+                                    onChange={handleOnChange}
                                     type="text"
                                     name="title"
                                     id="title"
                                     autoComplete="title"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
 
                         <div className="col-span-full">
-                            <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
                                 Description
                             </label>
                             <div className="mt-2">
                                 <textarea
-                                    onChange={handelOnchange}
-                                    id="about"
+                                    onChange={handleOnChange}
+                                    id="description"
                                     name="description"
                                     rows={3}
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -85,13 +127,29 @@ export default function Example() {
                             </label>
                             <div className="mt-2">
                                 <input
-                                    onChange={handelOnchange}
+                                    onChange={handleOnChange}
                                     required
-                                    type="text"
+                                    type="float"
                                     name="price"
                                     id="price"
                                     autoComplete="priceChanged"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                />
+                            </div>
+                        </div>
+                        <div className="sm:col-span-2">
+                            <label htmlFor="style" className="block text-sm font-medium leading-6 text-gray-900">
+                                Style*
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    onChange={handleOnChange}
+                                    required
+                                    type="text"
+                                    name="style"
+                                    id="style"
+                                    autoComplete="Changed"
+                                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -101,11 +159,11 @@ export default function Example() {
                             </label>
                             <div className="mt-2">
                                 <select
-                                    onChange={handelOnchange}
+                                    onChange={handleOnChange}
                                     id="currencyFormat"
                                     name="currencyFormat"
                                     autoComplete="currencyFormat"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     <option>₹</option>
                                 </select>
@@ -117,12 +175,12 @@ export default function Example() {
                             </label>
                             <div className="mt-2">
                                 <select
-                                    onChange={handelOnchange}
+                                    onChange={handleOnChange}
                                     id="country"
                                     defaultValue="INR"
                                     name="currencyId"
                                     autoComplete="country-name"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     <option value="INR" name="currencyId">INR</option>
                                 </select>
@@ -134,11 +192,12 @@ export default function Example() {
                             </label>
                             <div className="flex items-center gap-x-3">
                                 <input
-                                    onChange={handelOnchange}
+                                    onChange={handleOnChange}
                                     id="isFreeShipping"
                                     name="isFreeShipping"
                                     type="radio"
-                                    checked={product.isFreeShipping === "true"}
+                                    value="true"
+                                    checked={productData.isFreeShipping === true}
                                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                 />
                                 <label htmlFor="isFreeShipping" className="block text-sm font-medium leading-6 text-gray-900">
@@ -146,20 +205,19 @@ export default function Example() {
                                 </label>
                             </div>
                         </div>
-
                         <div className="sm:col-span-3">
                             <label htmlFor="availableSizes" className="block text-sm font-medium leading-6 text-gray-900">
                                 availableSizes* , Choose in this [S, XS, M, X, L, XXL, XL] and write x,y,z
                             </label>
                             <div className="mt-2">
                                 <input
-                                    onChange={handelOnchange}
+                                    onChange={handleOnChange}
                                     type="text"
                                     required
                                     name="availableSizes"
                                     id="availableSizes"
                                     autoComplete="availableSizes"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className= "p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -170,9 +228,9 @@ export default function Example() {
                             </label>
                             <div className="mt-2">
                                 <input
-                                    onChange={handelOnchange}
+                                    onChange={handleOnChange}
                                     type="number"
-                                    name="installment"
+                                    name="installments"
                                     id="installments"
                                     autoComplete="installments"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -194,5 +252,6 @@ export default function Example() {
                 </div>
             </div>
         </form>
+        </>
     )
 }
