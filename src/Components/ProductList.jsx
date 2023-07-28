@@ -1,3 +1,4 @@
+import Footer from './Footer'
 import Navbar from './Navbar'
 import { useEffect, useState } from 'react'
 // const products = [
@@ -75,6 +76,7 @@ export default function ProductList() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }

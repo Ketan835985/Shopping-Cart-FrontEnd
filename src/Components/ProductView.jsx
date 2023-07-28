@@ -74,7 +74,7 @@ export default function ProductView() {
     const data = await fetch(`http://localhost:3000/products/${productId}`)
     const json = await data.json() 
     // console.log(json) 
-    console.log(product2)
+    // console.log(product2)
     return json.data
   }           
   useEffect(() => {
@@ -111,7 +111,7 @@ export default function ProductView() {
             ))}
             <li className="text-sm">
               <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                {product.name}
+                {product2.style}
               </a>
             </li>
           </ol>
@@ -144,7 +144,7 @@ export default function ProductView() {
           </div>
           <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
             <img
-              src={product.images[3].src}
+              src={product2.productImage}
               alt={product.images[3].alt}
               className="h-full w-full object-cover object-center"
             />
@@ -154,13 +154,13 @@ export default function ProductView() {
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product2.title}</h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl tracking-tight text-gray-900">{product.price}</p>
+            <p className="text-3xl tracking-tight text-gray-900">{product2.currencyFormat+" "+ product2.price+ " "+ product2.currencyId}</p>
 
             {/* Reviews */}
             <div className="mt-6">
@@ -299,7 +299,7 @@ export default function ProductView() {
               <h3 className="sr-only">Description</h3>
 
               <div className="space-y-6">
-                <p className="text-base text-gray-900">{product.description}</p>
+                <p className="text-base text-gray-900">{product2.description}</p>
               </div>
             </div>
 

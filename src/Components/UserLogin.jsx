@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Navbar from './Navbar'
+import Footer from "./Footer";
 
 export default function UserLogin() {
     const [loginData, setFormData] = useState({
@@ -32,6 +33,7 @@ export default function UserLogin() {
                     // console.log(res.data.token)
                     alert("Login successful")
                     localStorage.setItem("token", res.data.token)
+                    localStorage.setItem("userId", res.data.userId)
                     // window.location.reload()
                     window.location.href = '/'
                     // console.log(window)
@@ -112,6 +114,7 @@ export default function UserLogin() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }

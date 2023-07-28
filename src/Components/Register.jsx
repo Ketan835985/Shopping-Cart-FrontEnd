@@ -1,6 +1,7 @@
 import { useState } from "react"
 import "./register.css"
 import Navbar from './Navbar'
+import Footer from "./Footer"
 
 export default function Register() {
     const [formData, setFormData] = useState({
@@ -317,7 +318,7 @@ export default function Register() {
                     </div>
                 </div>
             </form>
-
+            <Footer/>
         </>
     )
 }

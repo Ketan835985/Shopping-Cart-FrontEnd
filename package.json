@@ -16,6 +16,7 @@
     "@heroicons/react": "^2.0.18",
     "@mui/joy": "^5.0.0-alpha.87",
     "@tailwindcss/aspect-ratio": "^0.4.2",
+    "bootstrap": "^5.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2"

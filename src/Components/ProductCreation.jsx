@@ -1,6 +1,7 @@
 
 import { useState } from 'react'
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 export default function Example() {
     const [productData, setProduct] = useState({
@@ -252,6 +253,7 @@ export default function Example() {
                 </div>
             </div>
         </form>
+        <Footer/>
         </>
     )
 }

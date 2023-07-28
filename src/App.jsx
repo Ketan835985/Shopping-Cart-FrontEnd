@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ProductView from './Components/ProductView'
 import ProductList from './Components/ProductList'
 import ProductCreate from './Components/ProductCreation'
+import Footer from './Components/Footer'
 
 // import Footer from './Components/Footer'
 import About from './Components/About'
@@ -28,6 +29,7 @@ function App() {
             <Route path="/Products" element={<ProductList />} />
             <Route path="/ProductQuickView/:productId" element={<ProductQuickView />} />
             <Route path="/ProductCreate" element={<ProductCreate />} />
+            <Route path='/Footer' element={<Footer />} />
           </Routes>
         </BrowserRouter>
       </div>
