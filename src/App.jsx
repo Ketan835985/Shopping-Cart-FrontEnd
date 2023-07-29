@@ -9,6 +9,7 @@ import ProductView from './Components/ProductView'
 import ProductList from './Components/ProductList'
 import ProductCreate from './Components/ProductCreation'
 import Footer from './Components/Footer'
+import UserCart from './Components/UserCart'
 
 // import Footer from './Components/Footer'
 import About from './Components/About'
@@ -30,6 +31,7 @@ function App() {
             <Route path="/ProductQuickView/:productId" element={<ProductQuickView />} />
             <Route path="/ProductCreate" element={<ProductCreate />} />
             <Route path='/Footer' element={<Footer />} />
+            <Route path='/UserCart' element={<UserCart/>}/>
           </Routes>
         </BrowserRouter>
       </div>
