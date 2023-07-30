@@ -17,7 +17,7 @@ export default function Register() {
         "address[shipping][pincode]": "",
         "address[shipping][city]": "",
     })
-    const [img , setImg] = useState(null)
+    const [img, setImg] = useState(null)
     const [profileImage, setProfileImage] = useState(null);
     const handleImageChange = (event) => {
         setProfileImage(event.target.files[0]);
@@ -37,13 +37,13 @@ export default function Register() {
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         const dataUser = new FormData()
         for (const key in formData) {
             dataUser.append(key, formData[key]);
         }
         // console.log(profileImage);
-        dataUser.append("profileImage",profileImage);
+        dataUser.append("profileImage", profileImage);
         await fetch("http://localhost:3000/register", {
             method: "POST",
             headers: {
@@ -52,7 +52,7 @@ export default function Register() {
                 // Accept: "application/json",
             },
             body: dataUser
-            
+
         })
             .then((res) => res.json())
             .then((res) => {
@@ -310,7 +310,9 @@ export default function Register() {
                                 <button
                                     className="flex w-half justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-4 mr-6"
                                 >
-                                    Sign In
+                                    <a href="/login" className="text-sm font-medium hover:text-gray-800 text-white  ">
+                                        Sign in
+                                    </a>
                                 </button>
 
                             </div>
@@ -318,7 +320,7 @@ export default function Register() {
                     </div>
                 </div>
             </form>
-            <Footer/>
+            <Footer />
         </>
     )
 }

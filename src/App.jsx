@@ -1,4 +1,3 @@
-import ProductQuickView from './Components/ProductQuickView'
 import './App.css'
 import HomeContent from './Components/HomeContent'
 import Navbar from './Components/Navbar'
@@ -10,9 +9,10 @@ import ProductList from './Components/ProductList'
 import ProductCreate from './Components/ProductCreation'
 import Footer from './Components/Footer'
 import UserCart from './Components/UserCart'
-
+import UserProfile from './Components/UserProfile'
 // import Footer from './Components/Footer'
 import About from './Components/About'
+import ProductQuickView from './Components/ProductQuickView'
 
 function App() {
 
@@ -32,6 +32,7 @@ function App() {
             <Route path="/ProductCreate" element={<ProductCreate />} />
             <Route path='/Footer' element={<Footer />} />
             <Route path='/UserCart' element={<UserCart/>}/>
+            <Route path='/UserProfile' element={<UserProfile/>}/>
           </Routes>
         </BrowserRouter>
       </div>

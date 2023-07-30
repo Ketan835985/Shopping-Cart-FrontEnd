@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from './noun-shopping-17962.svg'
@@ -132,8 +133,46 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Footer() {
+export default function Navbar() {
     const [open, setOpen] = useState(false)
+
+    const userId = localStorage.getItem('userId');
+    const [userDetails, setUserDetails] = useState({
+        name: 'Guest',
+        profileImage: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    });
+    const fetchUser = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/user/${userId}/profile`, {
+                method: 'GET',
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+            const result = await response.json();
+            return result.data;
+        } catch (error) {
+            console.error('Error fetching user:', error);
+            return null;
+        }
+    };
+    // console.log(fetchUser())
+    useEffect(() => {
+        fetchUser().then((user) => {
+            if (user) {
+                setUserDetails({
+                    name: user.fname + ' ' + user.lname,
+                    profileImage: user.profileImage,
+                });
+            }
+        })
+
+    }, []);
+
+
+    // console.log(userDetails)
+
+
 
     return (
         <div className="bg-white">
@@ -250,25 +289,24 @@ export default function Footer() {
                                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                                     <div className="flow-root">
                                         <a href="/login" className="-m-2 block p-2 font-medium text-gray-900">
-                                            Sign in
+                                        {(localStorage.getItem('token')) ? <button onClick={() => localStorage.clear()}>Sign Out</button> : "Sign In"}
                                         </a>
                                     </div>
                                     <div className="flow-root">
                                         <a href="/register" className="-m-2 block p-2 font-medium text-gray-900">
-                                            Create account
+                                            {(!localStorage.getItem('token')) && "Create a new account"}
                                         </a>
                                     </div>
                                 </div>
 
                                 <div className="border-t border-gray-200 px-4 py-6">
-                                    <a href="#" className="-m-2 flex items-center p-2">
+                                    <a href="/UserProfile" className="-m-2 flex items-center p-2">
                                         <img
-                                            src="https://cdn.britannica.com/97/1597-004-05816F4E/Flag-India.jpg"
+                                            src={userDetails.profileImage}
                                             alt=""
                                             className="block h-auto w-5 flex-shrink-0"
                                         />
-                                        <span className="ml-3 block text-base font-medium text-gray-900">IND</span>
-                                        <span className="sr-only">, change currency</span>
+                                        <span className="ml-3 block text-base font-medium text-gray-900">{userDetails.name}</span>
                                     </a>
                                 </div>
                             </Dialog.Panel>
@@ -296,7 +334,7 @@ export default function Footer() {
                                     <span className="sr-only">Shopping Cart</span>
                                     <img
                                         className="h-8 w-auto"
-                                        src = {logo}
+                                        src={logo}
                                         alt=""
                                     />
                                 </a>
@@ -405,23 +443,23 @@ export default function Footer() {
                             <div className="ml-auto flex items-center">
                                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                                     <a href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        Sign in
+                                        {(localStorage.getItem('token')) ? <button onClick={() => localStorage.clear()}>Sign Out</button> : "Sign In"}
                                     </a>
                                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+
                                     <a href="/register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        Create account
+                                        {(localStorage.getItem('token')) ? "" : "Create a new account"}
                                     </a>
                                 </div>
 
                                 <div className="hidden lg:ml-8 lg:flex">
-                                    <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">
+                                    <a href={(localStorage.getItem('token') ? "/UserProfile" : "/login")} className="flex items-center text-gray-700 hover:text-gray-800">
                                         <img
-                                            src="https://cdn.britannica.com/97/1597-004-05816F4E/Flag-India.jpg"
+                                            src={userDetails.profileImage}
                                             alt=""
-                                            className="block h-auto w-5 flex-shrink-0"
+                                            className="block h-auto w-5 flex-shrink-0 rounded-full"
                                         />
-                                        <span className="ml-3 block text-sm font-medium">IND</span>
-                                        <span className="sr-only">, change currency</span>
+                                        <span className="ml-3 block text-sm font-medium">{userDetails.name}</span>
                                     </a>
                                 </div>
 
