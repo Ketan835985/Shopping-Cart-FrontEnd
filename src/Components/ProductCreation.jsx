@@ -268,7 +268,7 @@ export default function ProductCreation() {
                     <Footer />
                 </div>
             }
-            <ToastContainer position="top-center" theme="colored"/>
+            <ToastContainer position="top-center" theme="colored" closeOnClick={false} />
         </>
     )
 }
