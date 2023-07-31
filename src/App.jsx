@@ -31,7 +31,7 @@ function App() {
             <Route path="/ProductQuickView/:productId" element={<ProductQuickView />} />
             <Route path="/ProductCreate" element={<ProductCreate />} />
             <Route path='/Footer' element={<Footer />} />
-            <Route path='/UserCart' element={<UserCart/>}/>
+            <Route path='/UserCart/' element={<UserCart/>}/>
             <Route path='/UserProfile' element={<UserProfile/>}/>
           </Routes>
         </BrowserRouter>

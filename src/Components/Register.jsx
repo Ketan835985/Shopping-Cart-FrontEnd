@@ -2,8 +2,12 @@ import { useState } from "react"
 import "./register.css"
 import Navbar from './Navbar'
 import Footer from "./Footer"
+import LoadingSpin from "./LoadingSpin"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Register() {
+    const [isLoading, setIsLoading] = useState(false)
     const [formData, setFormData] = useState({
         fname: "",
         lname: "",
@@ -56,17 +60,19 @@ export default function Register() {
         })
             .then((res) => res.json())
             .then((res) => {
-                console.log(res);
+                setIsLoading(true);
                 if (res.status == true) {
                     window.location.href = "/login"
                 }
                 else {
-                    alert(res.message)
+                    setIsLoading(false);
+                    toast.error(res.message)
                 }
             })
     }
     return (
         <>
+            {isLoading && <LoadingSpin />}
             <Navbar />
             <form onSubmit={handleSubmit} className="flex m-auto justify-center ">
                 <div className="outer">
@@ -113,7 +119,7 @@ export default function Register() {
                                     </label>
                                     <div className="mt-2">
                                         <input
-                                            required
+                                            required 
                                             type="text"
                                             name="fname"
                                             id="first-name"
@@ -321,6 +327,7 @@ export default function Register() {
                 </div>
             </form>
             <Footer />
+            <ToastContainer position="top-center" theme="colored" closeOnClick={false}/>
         </>
     )
 }
