@@ -1,8 +1,8 @@
 
 import { useState } from 'react'
-import Navbar from './Navbar';
-import Footer from './Footer';
-import LoadingSpin from './LoadingSpin';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
+import LoadingSpin from '../Loader/LoadingSpin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -34,9 +34,9 @@ export default function ProductCreation() {
 
     const handleOnChange = (e) => {
         const { name, value, type } = e.target;
-        const newValue = type === 'radio' ? e.target.value === 'true' : value.trim();
+        const newValue = type === 'radio' ? e.target.value === 'true' : value;
 
-        setProduct({ ...productData, [name]: newValue });
+        setProduct({ ...productData, [name]: (newValue).trim() });
     };
 
     const handleSubmit = async (e) => {
@@ -70,7 +70,7 @@ export default function ProductCreation() {
                 }
             });
 
-        setProduct(productData)
+        setProduct({})
     };
 
     return (

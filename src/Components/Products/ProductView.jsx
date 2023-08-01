@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Navbar from './Navbar'
+import Navbar from '../Navbar'
 import { useState, useEffect } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import { useParams } from 'react-router-dom'
-import LoadingSpin from './LoadingSpin'
+import LoadingSpin from '../Loader/LoadingSpin'
 
 const product = {
   name: 'Basic Tee 6-Pack',

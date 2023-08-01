@@ -1,26 +1,28 @@
 import { useState } from "react"
 import "./register.css"
-import Navbar from './Navbar'
-import Footer from "./Footer"
-import LoadingSpin from "./LoadingSpin"
+import Navbar from '../Navbar'
+import Footer from "../Footer"
+import LoadingSpin from "../Loader/LoadingSpin"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
+
+const userRes = {
+    fname: "",
+    lname: "",
+    email: "",
+    phone: "",
+    password: "",
+    "address[billing][street]": "",
+    "address[billing][city]": "",
+    "address[billing][pincode]": "",
+    "address[shipping][street]": "",
+    "address[shipping][pincode]": "",
+    "address[shipping][city]": "",
+}
 export default function Register() {
     const [isLoading, setIsLoading] = useState(false)
-    const [formData, setFormData] = useState({
-        fname: "",
-        lname: "",
-        email: "",
-        phone: "",
-        password: "",
-        "address[billing][street]": "",
-        "address[billing][city]": "",
-        "address[billing][pincode]": "",
-        "address[shipping][street]": "",
-        "address[shipping][pincode]": "",
-        "address[shipping][city]": "",
-    })
+    const [formData, setFormData] = useState(userRes)
     const [img, setImg] = useState(null)
     const [profileImage, setProfileImage] = useState(null);
     const handleImageChange = (event) => {

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import { useParams } from "react-router-dom";
 
 

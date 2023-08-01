@@ -1,7 +1,7 @@
 import { useState } from "react"
-import Navbar from './Navbar'
-import Footer from "./Footer";
-import LoadingSpin from "./LoadingSpin";
+import Navbar from '../Navbar'
+import Footer from "../Footer";
+import LoadingSpin from "../Loader/LoadingSpin";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 

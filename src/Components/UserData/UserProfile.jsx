@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+import Footer from "../Footer";
+import Navbar from "../Navbar";
 import './userProfile.css'
-import LoadingSpin from "./LoadingSpin";
+import LoadingSpin from "../Loader/LoadingSpin";
 
 export default function UserProfile() {
   const [isLoading, setIsLoading] = useState(false)

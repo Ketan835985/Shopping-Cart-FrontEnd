@@ -1,6 +1,6 @@
-import Footer from './Footer'
-import LoadingSpin from './LoadingSpin';
-import Navbar from './Navbar'
+import Footer from '../Footer'
+import LoadingSpin from '../Loader/LoadingSpin';
+import Navbar from '../Navbar'
 import { useEffect, useState } from 'react'
 
 // const products = [
