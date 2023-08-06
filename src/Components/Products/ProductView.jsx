@@ -69,17 +69,37 @@ export default function ProductView() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
   const [product2, setProduct] = useState({})
-  const { productId } = useParams()
+  const { productId } = useParams("productId")
+  const userId = localStorage.getItem('userId')
 
   const fetchData = async () => {
     setIsLoading(true)
-    // console.log(productId)
     const data = await fetch(`http://localhost:3000/products/${productId}`)
     const json = await data.json()
-    // console.log(json) 
-    // console.log(product2)
     return json.data
   }
+
+  async function addProduct() {
+    const cartDetail = await fetch(`http://localhost:3000/users/${userId}/cart`, {
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ productId: productId })
+    })
+
+    const data = await cartDetail.json()
+    if(data.status === true){
+      alert("success")
+    }
+    else{
+      alert("error")
+    }
+  }
+
+
+
   useEffect(() => {
     fetchData().then((data) => {
       setProduct(data)
@@ -293,6 +313,7 @@ export default function ProductView() {
                     <button
                       type="submit"
                       className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        onClick={()=>addProduct()}
                     >
                       Add to bag
                     </button>

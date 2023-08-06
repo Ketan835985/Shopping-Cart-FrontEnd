@@ -141,6 +141,7 @@ export default function Navbar() {
         name: 'Guest',
         profileImage: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
     });
+    let [cartItem, setCartItem] = useState(0)
     const fetchUser = async () => {
         try {
             const response = await fetch(`http://localhost:3000/user/${userId}/profile`, {
@@ -156,7 +157,19 @@ export default function Navbar() {
             return null;
         }
     };
-    // console.log(fetchUser())
+
+    const cartDetail = async() =>{
+        const response = await fetch(`http://localhost:3000/users/${userId}/cart`,{
+            method: 'GET',
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('token'),
+            }
+        })
+
+        const cart = response.json()
+        // console.log((await cart).data)
+        return (await cart).data;
+    }
     useEffect(() => {
         fetchUser().then((user) => {
             if (user) {
@@ -164,8 +177,15 @@ export default function Navbar() {
                     name: user.fname + ' ' + user.lname,
                     profileImage: user.profileImage,
                 });
+                cartDetail().then((data) =>{
+                    setCartItem(
+                        data.totalItems
+                    )
+                })
+                
             }
         })
+        
 
     }, []);
 
@@ -473,12 +493,12 @@ export default function Navbar() {
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
-                                    <a href="/UserCart" className="group -m-2 flex items-center p-2">
+                                    <a href={(localStorage.getItem('token') ? "/UserCart" : "/login")} className="group -m-2 flex items-center p-2">
                                         <ShoppingBagIcon
                                             className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true"
                                         />
-                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartItem}</span>
                                         <span className="sr-only">items in cart, view bag</span>
                                     </a>
                                 </div>

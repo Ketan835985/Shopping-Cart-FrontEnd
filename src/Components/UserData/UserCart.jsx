@@ -1,37 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
-import { useParams } from "react-router-dom";
 
 
 export default function UserCart() {
     const userId = localStorage.getItem('userId');
     const [cartDetails, setCartDetails] = useState({})
-    const productId = useParams('productId')
 
-    async function fetchCartDetails (){
-        const response = await fetch(`http://localhost:3000/users/${userId}/cart`,{
-            method : 'POST',
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('token'),
-            },
-            body: productId
-        })
-
-        const result = await response.json()
-
-        return result.data
-    }
-
-    useEffect(()=>{
-        fetchCartDetails().then((cart)=>{
-            if(cart){
-                setCartDetails(cart);
-                console.log(cart)
+    const fetchDetail = async () => {
+        const response = await fetch(`http://localhost:3000/users/${userId}/cart`, {
+            method: 'GET',
+            headers: {
+                authorization: 'Bearer ' + localStorage.getItem('token'),
             }
         })
+
+        const cart =await response.json()
+        // console.log((await cart).data)
+        return (await cart).data;
+    }
+
+
+    useEffect(()=>{
+        fetchDetail().then((cart)=>{
+            setCartDetails(cart)
+        })
     },[])
-    console.log(cartDetails)
+    // console.log(cartDetails)
     return (
         <div>
             <Navbar/>
@@ -40,7 +35,7 @@ export default function UserCart() {
                 <div className="w-3/4 bg-white px-10 ">
                     <div className="flex justify-between border-b pb-8">
                         <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-                        <h2 className="font-semibold text-2xl">3 Items</h2>
+                            <h2 className="font-semibold text-2xl">{cartDetails.totalItems} Items</h2>
                     </div>
                     <div className="flex mt-10 mb-5">
                         <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">
@@ -144,7 +139,7 @@ export default function UserCart() {
                                 />
                             </div>
                             <div className="flex flex-col justify-between ml-4 flex-grow">
-                                <span className="font-bold text-sm">Airpods</span>
+                                <span className="font-bold text-sm">Tripods</span>
                                 <span className="text-red-500 text-xs">Apple</span>
                                 <a
                                     href="#"
@@ -170,7 +165,7 @@ export default function UserCart() {
                         <span className="text-center w-1/5 font-semibold text-sm">$150.00</span>
                         <span className="text-center w-1/5 font-semibold text-sm">$150.00</span>
                     </div>
-                    <a href="#" className="flex font-semibold text-indigo-600 text-sm mt-10">
+                    <a href="/Products" className="flex font-semibold text-indigo-600 text-sm my-10">
                         <svg
                             className="fill-current mr-2 text-indigo-600 w-4"
                             viewBox="0 0 448 512"
@@ -183,15 +178,17 @@ export default function UserCart() {
                 <div id="summary" className="w-1/4 px-8 mx-12">
                     <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
                     <div className="flex justify-between mt-10 mb-5">
-                        <span className="font-semibold text-sm uppercase">Items 3</span>
-                        <span className="font-semibold text-sm">590$</span>
+                        <span className="font-semibold text-sm uppercase">Items {cartDetails.totalItems}</span>
+                        <span className="font-semibold text-sm">{cartDetails.totalPrice} ₹</span>
                     </div>
                     <div>
                         <label className="font-medium inline-block mb-3 text-sm uppercase">
                             Shipping
                         </label>
                         <select className="block p-2 text-gray-600 w-full text-sm">
-                            <option>Standard shipping - $10.00</option>
+                            <option>Normal Shipping  - 0.00 ₹</option>
+                            <option>Standard shipping - 10.00 ₹</option>
+
                         </select>
                     </div>
                     <div className="py-10">
@@ -214,7 +211,7 @@ export default function UserCart() {
                     <div className="border-t mt-8">
                         <div className="flex font-semibold justify-between py-6 text-sm uppercase">
                             <span>Total cost</span>
-                            <span>$600</span>
+                                <span>{cartDetails.totalPrice} ₹</span>
                         </div>
                         <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">
                             Checkout
