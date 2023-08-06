@@ -5,6 +5,8 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import { useParams } from 'react-router-dom'
 import LoadingSpin from '../Loader/LoadingSpin'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const product = {
   name: 'Basic Tee 6-Pack',
@@ -90,11 +92,11 @@ export default function ProductView() {
     })
 
     const data = await cartDetail.json()
-    if(data.status === true){
-      alert("success")
+    if((await data).status === true){
+      toast.success("Product added successfully")
     }
     else{
-      alert("error")
+      toast.error("Login first ")
     }
   }
 
@@ -145,29 +147,6 @@ export default function ProductView() {
 
               {/* Image gallery */}
               <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-                {/* <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-            <img
-              src={product2.productImage}
-              alt={product.images[0].alt}
-              className="h-full w-full object-cover object-center"
-            />
-          </div> */}
-                {/* <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-              <img
-                src={product.images[1].src}
-                alt={product.images[1].alt}
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-            <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-              <img
-                src={product.images[2].src}
-                alt={product.images[2].alt}
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-          </div> */}
                 <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
                   <img
                     src={product2.productImage}
@@ -356,6 +335,7 @@ export default function ProductView() {
               </div>
             </div>
           </div>
+          <ToastContainer position="top-center" theme="colored" closeOnClick={false} />
         </div>
       }
     </>

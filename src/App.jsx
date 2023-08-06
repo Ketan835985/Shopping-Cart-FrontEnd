@@ -12,6 +12,10 @@ import UserCart from './Components/UserData/UserCart'
 import UserProfile from './Components/UserData/UserProfile'
 import About from './Components/About'
 import ProductQuickView from './Components/Products/ProductQuickView'
+import OrderList from './Components/Orders/orderList'
+import OrderFilledForm from './Components/Orders/orderFilledForm'
+import OrderCardPayment from './Components/Orders/orderCardPayment'
+import ConfirmPayment from './Components/Orders/confirmPayment'
 
 function App() {
 
@@ -32,6 +36,10 @@ function App() {
             <Route path='/Footer' element={<Footer />} />
             <Route path='/UserCart/' element={<UserCart/>}/>
             <Route path='/UserProfile' element={<UserProfile/>}/>
+            <Route path='/Orders' element={<OrderList/>}/>
+            <Route path='/orderFilledForm' element={<OrderFilledForm/>}/>
+            <Route path='/OrderCardPayment/:amount' element={<OrderCardPayment/>}/>
+            <Route path='/Confirmation' element={<ConfirmPayment/>}/>
           </Routes>
         </BrowserRouter>
       </div>
