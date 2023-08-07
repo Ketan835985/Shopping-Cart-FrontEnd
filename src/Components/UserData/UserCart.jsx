@@ -9,7 +9,7 @@ export default function UserCart() {
     const userId = localStorage.getItem('userId');
     const [cartDetails, setCartDetails] = useState({})
     let [cartItems, setCartItems] = useState([])
-    let [method, setMethod ]= useState("")
+    let [method, setMethod] = useState("")
     const fetchDetail = async () => {
         const response = await fetch(`http://localhost:3000/users/${userId}/cart`, {
             method: 'GET',
@@ -20,7 +20,7 @@ export default function UserCart() {
         const cart = await response.json()
         return (await cart).data;
     }
-    const handelMethod = (e) =>{
+    const handelMethod = (e) => {
         setMethod(e.target.value)
         if (e.target.value == "") return toast.error("select valid payment method")
     }
@@ -58,43 +58,47 @@ export default function UserCart() {
                         <div>
                             {cartItems.map((product) => {
                                 // {console.log(product.productId.title)}
-                                return (<div key={product._id} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
-                                    <div className="flex w-2/5">
-                                        {" "}
-                                        <div className="w-20">
-                                            <img
-                                                className="h-24"
-                                                src={product.productId.productImage}
-                                                alt=""
+                                return (
+                                    <div key={product._id} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
+                                        <div className="flex w-2/5">
+                                            {" "}
+                                            <div className="w-20">
+                                                <a href={`/ProductView/${product.productId._id}`}>
+                                                    <img
+                                                        className="h-24"
+                                                        src={product.productId.productImage}
+                                                        alt=""
+                                                    />
+                                                </a>
+                                            </div>
+                                            <div className="flex flex-col justify-between ml-4 flex-grow">
+                                                <span className="font-bold text-sm">{product.productId.title}</span>
+                                                <span className="text-red-500 text-xs">{product.productId.style}</span>
+                                                <a
+                                                    href="#"
+                                                    className="font-semibold hover:text-red-500 text-gray-500 text-xs"
+                                                >
+                                                    Remove
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center w-1/5">
+                                            <svg className="fill-current text-gray-600 w-3" viewBox="0 0 448 512">
+                                                <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                                            </svg>
+                                            <input
+                                                className="mx-2 border text-center w-8"
+                                                type="text"
+                                                defaultValue={product.quantity}
                                             />
+                                            <svg className="fill-current text-gray-600 w-3" viewBox="0 0 448 512">
+                                                <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                                            </svg>
                                         </div>
-                                        <div className="flex flex-col justify-between ml-4 flex-grow">
-                                            <span className="font-bold text-sm">{product.productId.title}</span>
-                                            <span className="text-red-500 text-xs">{product.productId.style}</span>
-                                            <a
-                                                href="#"
-                                                className="font-semibold hover:text-red-500 text-gray-500 text-xs"
-                                            >
-                                                Remove
-                                            </a>
-                                        </div>
+                                        <span className="text-center w-1/5 font-semibold text-sm">{product.productId.price} ₹</span>
+                                        <span className="text-center w-1/5 font-semibold text-sm">{Number(product.productId.price) * Number(product.quantity)} ₹</span>
                                     </div>
-                                    <div className="flex justify-center w-1/5">
-                                        <svg className="fill-current text-gray-600 w-3" viewBox="0 0 448 512">
-                                            <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                                        </svg>
-                                        <input
-                                            className="mx-2 border text-center w-8"
-                                            type="text"
-                                            defaultValue={product.quantity}
-                                        />
-                                        <svg className="fill-current text-gray-600 w-3" viewBox="0 0 448 512">
-                                            <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                                        </svg>
-                                    </div>
-                                    <span className="text-center w-1/5 font-semibold text-sm">{product.productId.price} ₹</span>
-                                    <span className="text-center w-1/5 font-semibold text-sm">{Number(product.productId.price) * Number(product.quantity)} ₹</span>
-                                </div>)
+                                )
                             })}
                         </div>
 
@@ -110,9 +114,9 @@ export default function UserCart() {
                     </div>
                     <div id="summary" className="w-1/4 px-8 mx-12">
                         <a href="/Orders">
-                        <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full" >
-                            {`My Order's`}
-                        </button>
+                            <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full" >
+                                {`My Order's`}
+                            </button>
                         </a>
                         <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
                         <div className="flex justify-between mt-10 mb-5">
@@ -151,7 +155,7 @@ export default function UserCart() {
                                 Payment Method
                             </label>
                             <select className="block p-2 text-gray-600 w-full text-sm " name="method" onChange={handelMethod} required>
-                                <option value = ""> option... </option>
+                                <option value=""> option... </option>
                                 <option value={"COD"}>Cash On Delivery(COD)</option>
                                 <option value="Card">Card Payment </option>
 
@@ -163,9 +167,9 @@ export default function UserCart() {
                                 <span>{cartDetails.totalPrice} ₹</span>
                             </div>
                             <a href={method == "COD" ? "/orderFilledForm" : (method == "Card" ? `/OrderCardPayment/${cartDetails.totalPrice}` : "/UserCart")}>
-                            <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full" >
-                                Checkout
-                            </button>
+                                <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full" >
+                                    Checkout
+                                </button>
                             </a>
                         </div>
                     </div>

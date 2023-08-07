@@ -92,6 +92,7 @@ export default function ProductView() {
     })
 
     const data = await cartDetail.json()
+    console.log(data)
     if((await data).status === true){
       toast.success("Product added successfully")
     }

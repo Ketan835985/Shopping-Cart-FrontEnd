@@ -1,8 +1,11 @@
+import Footer from "../Footer";
+import Navbar from "../Navbar";
 
 
 export default function orderFilledForm() {
     return (
         <div>
+            <Navbar/>
             <div className="bg-gray-300 flex align-middle justify-center">
                 <div className="py-12">
                     <div className="max-w-md  bg-white shadow-lg rounded-lg md:max-w-xl mx-2">
@@ -112,6 +115,7 @@ export default function orderFilledForm() {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }
