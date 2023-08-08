@@ -30,6 +30,7 @@ export default function orderList() {
     })
   }, [])
 
+  const newOrderList = orderList.slice(orderList.length-4)
   // console.log(orderList)
 
   return (
@@ -47,8 +48,9 @@ export default function orderList() {
               <div className="w-full md:w-8/12 xl:w-9/12 px-4 mb-14 md:mb-0">
                 <div className="py-12 px-8 md:px-12 bg-white rounded-3xl">
                   <div className="xl:px-10">
-
-                    {orderList.map((order) => {
+                    <span className="mb-5 text-xl">Last Orders</span>
+                    <hr/>
+                    {newOrderList.map((order) => {
                       return (
                         <div key={order._id} className="relative flex flex-wrap items-center xl:justify-between -mx-4 mb-8 pb-8 border-b border-gray-200 border-opacity-40">
                           <div className="w-full md:w-auto px-4 mb-6 xl:mb-0">
@@ -56,7 +58,7 @@ export default function orderList() {
                               className="block mb-5 text-xl font-heading font-medium hover:underline"
                               href={`/orderDetail/${order._id}`}
                             >
-                              {(order._id).slice(17).toUpperCase()}
+                              #Order{(order._id).slice(17).toUpperCase()}
                             </a>
                             <div className="flex flex-wrap">
                               <p className="mr-4 text-sm font-medium">
