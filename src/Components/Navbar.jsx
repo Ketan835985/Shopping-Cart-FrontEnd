@@ -463,7 +463,7 @@ export default function Navbar() {
                             <div className="ml-auto flex items-center">
                                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                                     <a href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        {(localStorage.getItem('token')) ? <button onClick={() => localStorage.clear()}>Sign Out</button> : "Sign In"}
+                                        {(localStorage.getItem('token')) ? <button onClick={() => localStorage.removeItem("token")}>Sign Out</button> : "Sign In"}
                                     </a>
                                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
 

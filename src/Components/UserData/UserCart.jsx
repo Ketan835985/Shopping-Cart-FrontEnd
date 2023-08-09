@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import { json } from "react-router-dom";
 
 
 export default function UserCart() {
@@ -70,9 +71,11 @@ export default function UserCart() {
         fetchDetail().then((cart) => {
             setCartDetails(cart)
             setCartItems(cart.items)
+            
         })
     }, [])
     // console.log(cartItems)
+    // console.log(quantity)
     return (
         <div>
             <Navbar />
@@ -157,7 +160,7 @@ export default function UserCart() {
                         </a>
                         <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
                         <div className="flex justify-between mt-10 mb-5">
-                            <span className="font-semibold text-sm uppercase">Items {cartDetails.totalItems}</span>
+                            <span className="font-semibold text-sm capitalize">total Quantity {cartDetails.totalItems}</span>
                             <span className="font-semibold text-sm">{cartDetails.totalPrice} ₹</span>
                         </div>
                         <div>
@@ -165,8 +168,8 @@ export default function UserCart() {
                                 Shipping
                             </label>
                             <select className="block p-2 text-gray-600 w-full text-sm">
-                                <option>Normal Shipping  - 0.00 ₹</option>
-                                <option>Standard shipping - 10.00 ₹</option>
+                                <option value = {0}>Normal Shipping  - 0.00 ₹</option>
+                                <option value = {10}>Standard shipping - 10.00 ₹</option>
 
                             </select>
                         </div>

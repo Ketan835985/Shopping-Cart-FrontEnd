@@ -63,11 +63,11 @@ export default function orderList() {
                             <div className="flex flex-wrap">
                               <p className="mr-4 text-sm font-medium">
                                 <span className="font-heading">Replace:</span>
-                                <span className="ml-2 text-gray-400">Silver</span>
+                                <span className="ml-2 text-gray-400">{order.cancellable  ? "YES" : "NO"}</span>
                               </p>
                               <p className="text-sm font-medium">
                                 <span>Order Date:</span>
-                                <span className="ml-2 text-gray-400">{(order.createdAt)}</span>
+                                <span className="ml-2 text-gray-400">{new Date(order.createdAt).toLocaleDateString('en-US')}</span>
                               </p>
                             </div>
                           </div>

@@ -41,6 +41,7 @@ export default function UserLogin() {
                     window.location.href = '/'
                 }
                 else {
+                    setIsLoading(false)
                     toast.error(res.message)
                 }
             }).catch((err) => {
