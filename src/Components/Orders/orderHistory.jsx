@@ -2,6 +2,10 @@
 
 export default function orderHistory() {
   return (
-    <div>orderHistory</div>
+    <div>
+      {/* write a order history component using react  */}
+      <h1>Order History</h1>
+      
+    </div>
   )
 }

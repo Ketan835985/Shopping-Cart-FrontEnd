@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Navbar from '../Navbar'
 import Footer from "../Footer";
 import LoadingSpin from "../Loader/LoadingSpin";
@@ -11,6 +11,7 @@ export default function UserLogin() {
         email: "",
         password: "",
     })
+    const [validForm, setValidForm] = useState(false)
     const handleChange = (e) => {
         e.preventDefault();
         setFormData({
@@ -18,6 +19,17 @@ export default function UserLogin() {
             [e.target.name]: e.target.value,
         })
     }
+
+    useEffect(() => {
+        let value = setTimeout(() => {
+            setValidForm((loginData.email).includes('@') && (loginData.password).length > 6)
+        }, 500)
+        return () => {
+            clearTimeout(value)
+        }
+    }
+        , [loginData])
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -105,6 +117,7 @@ export default function UserLogin() {
 
                             <div>
                                 <button
+                                    disabled={!validForm}
                                     type="submit"
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
@@ -121,7 +134,7 @@ export default function UserLogin() {
                 </div>
                 <Footer />
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </>
     )
 }

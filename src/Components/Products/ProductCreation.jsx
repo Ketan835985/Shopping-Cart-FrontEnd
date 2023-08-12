@@ -7,16 +7,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function ProductCreation() {
-    const [isLoading, setIsLoading]= useState(false)
-    const [productData, setProduct] = useState({
+    const [isLoading, setIsLoading] = useState(false)
+    let [productData, setProduct] = useState({
         title: '',
         price: '',
         description: '',
+        isFreeShipping: false,
         files: '',
-        installments: 0,
-        isFreeShipping: false, // Updated to default to false for boolean field
-        currencyFormat: '₹', // Set a default currency format
-        currencyId: 'INR', // Set a default currency ID
+        installments: 0, // Updated to default to false for boolean field
+        currencyFormat: '', // Set a default currency format
+        currencyId: '', // Set a default currency ID
         availableSizes: '',
         style: '',
     });
@@ -24,7 +24,6 @@ export default function ProductCreation() {
     const [productImage, setProductImage] = useState(null);
     const handleImageChange = (event) => {
         setProductImage(event.target.files[0]);
-        // console.log(event.target.files[0])
         const reader = new FileReader();
         reader.readAsDataURL(event.target.files[0]);
         reader.onloadend = (e) => {
@@ -33,11 +32,13 @@ export default function ProductCreation() {
     };
 
     const handleOnChange = (e) => {
-        const { name, value, type } = e.target;
-        const newValue = type === 'radio' ? e.target.value === 'true' : value;
-
-        setProduct({ ...productData, [name]: (newValue).trim() });
+        // e.preventDefault();
+        setProduct({
+            ...productData,
+        [e.target.name]: e.target.value})
     };
+
+    // console.log(productData)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,22 +56,32 @@ export default function ProductCreation() {
             .then(res => {
                 setIsLoading(true)
                 if (res.status == true) {
+                    setProduct({
+                        title: '',
+                        price: '',
+                        description: '',
+                        isFreeShipping: false,
+                        files: '',
+                        installments: 0,
+                        currencyFormat: '',
+                        currencyId: '',
+                        availableSizes: '',
+                        style: '',
+                    })
                     setIsLoading(false)
                     toast.success("Product successfully added!", {
                         theme: "colored",
-                        position:"top-center"
+                        position: "top-center"
                     })
                 }
                 else {
                     setIsLoading(false)
-                    toast.warn(res.message,{
+                    toast.warn(res.message, {
                         theme: "colored",
-                        position:"top-center"
+                        position: "top-center"
                     })
                 }
             });
-
-        setProduct({})
     };
 
     return (
@@ -79,7 +90,7 @@ export default function ProductCreation() {
                 <div>
                     <Navbar />
                     <form onSubmit={handleSubmit}>
-                        <div className="space-y-10 flex justify-center gap-y-7">
+                        <div className="space-y-10 flex justify-center gap-y-7 mb-10 flex-coli items-center">
                             <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-base font-bold leading-7 text-gray-900">Product Creation Form</h2>
                                 <p className="mt-1 text-sm leading-6 text-gray-600">
@@ -178,7 +189,8 @@ export default function ProductCreation() {
                                                 autoComplete="currencyFormat"
                                                 className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
-                                                <option>₹</option>
+                                                <option>...OPTION</option>
+                                                <option value="₹" name="currencyFormat">₹</option>
                                             </select>
                                         </div>
                                     </div>
@@ -189,33 +201,31 @@ export default function ProductCreation() {
                                         <div className="mt-2">
                                             <select
                                                 onChange={handleOnChange}
-                                                id="country"
-                                                defaultValue="INR"
+                                                id="currencyId"
                                                 name="currencyId"
-                                                autoComplete="country-name"
+                                                autoComplete="currencyId"
                                                 className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
+                                                <option>...OPTION</option>
                                                 <option value="INR" name="currencyId">INR</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div className="sm:col-span-3">
-                                        <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                                        <label htmlFor="isFreeShipping" className="block text-sm font-medium leading-6 text-gray-900">
                                             isFreeShipping
                                         </label>
-                                        <div className="flex items-center gap-x-3">
-                                            <input
+                                        <div className="mt-2">
+                                            <select
                                                 onChange={handleOnChange}
                                                 id="isFreeShipping"
                                                 name="isFreeShipping"
-                                                type="radio"
-                                                value="true"
-                                                checked={productData.isFreeShipping === true}
-                                                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                            />
-                                            <label htmlFor="isFreeShipping" className="block text-sm font-medium leading-6 text-gray-900">
-                                                true
-                                            </label>
+                                                autoComplete="isFreeShipping"
+                                                className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                            >
+                                                <option value={false} name="isFreeShipping">Paid</option>
+                                                <option value={true} name="isFreeShipping">Free</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div className="sm:col-span-3">
@@ -251,17 +261,17 @@ export default function ProductCreation() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="mt-6 flex items-end justify-center gap-x-6">
-                                <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                >
-                                    Save
-                                </button>
+                                <div className="mt-6 flex items-end justify-center gap-x-6">
+                                    <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>

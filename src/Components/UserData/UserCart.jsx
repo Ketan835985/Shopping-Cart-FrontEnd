@@ -80,8 +80,8 @@ export default function UserCart() {
         <div>
             <Navbar />
             <div className="container mx-auto mt-10">
-                <div className="flex shadow-md my-8 mx-12">
-                    <div className="w-3/4 bg-white px-10 ">
+                <div className="flex shadow-md my-8 mx-12 shadow-slate-500">
+                    <div className="w-3/4 bg-white p-20 ">
                         <div className="flex justify-between border-b pb-8">
                             <h1 className="font-semibold text-2xl">Shopping Cart</h1>
                             <h2 className="font-semibold text-2xl">{cartDetails.totalItems} Items</h2>
@@ -154,7 +154,7 @@ export default function UserCart() {
                     </div>
                     <div id="summary" className="w-1/4 px-8 mx-12">
                         <a href="/Orders">
-                            <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full" >
+                            <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full mt-5" >
                                 {`My Order's`}
                             </button>
                         </a>
@@ -189,7 +189,7 @@ export default function UserCart() {
                                 <span>{cartDetails.totalPrice} ₹</span>
                             </div>
                             <a href={(method == "COD" && cartDetails.totalItems > 0) ? "/orderFilledForm" : (method == "Card" && cartDetails.totalItems > 0 ? `/OrderCardPayment/${cartDetails.totalPrice}` : "/UserCart")}>
-                                <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full" disabled={cartDetails.totalItems==0 ? "true" : ""}>
+                                <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full mb-10" disabled={cartDetails.totalItems==0 ? "true" : ""}>
                                     Checkout
                                 </button>
                             </a>
