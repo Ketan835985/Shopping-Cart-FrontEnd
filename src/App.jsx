@@ -16,6 +16,7 @@ import OrderList from './Components/Orders/orderList'
 import OrderFilledForm from './Components/Orders/orderFilledForm'
 import OrderCardPayment from './Components/Orders/orderCardPayment'
 import ConfirmPayment from './Components/Orders/confirmPayment'
+import OrderHistory from './Components/Orders/orderHistory'
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
             <Route path='/orderFilledForm' element={<OrderFilledForm/>}/>
             <Route path='/OrderCardPayment/:amount' element={<OrderCardPayment/>}/>
             <Route path='/Confirmation' element={<ConfirmPayment/>}/>
+            <Route path='/orderHistory/:orderId' element={<OrderHistory/>}/>
           </Routes>
         </BrowserRouter>
       </div>

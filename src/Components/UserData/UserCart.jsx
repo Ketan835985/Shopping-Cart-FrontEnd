@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import { json } from "react-router-dom";
 
 
 export default function UserCart() {

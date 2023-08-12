@@ -44,19 +44,19 @@ export default function orderList() {
                 {`Your Order's`}
               </h1>
             </div>
-            <div className="flex flex-wrap -mx-4 mb-14 xl:mb-24">
-              <div className="w-full md:w-8/12 xl:w-9/12 px-4 mb-14 md:mb-0">
+            <div className="flex flex-wrap -mx-4 mb-14 xl:mb-12">
+              <div className="w-full md:w-8/12 xl:w-9/12 px-4 mb-12 md:mb-0">
                 <div className="py-12 px-8 md:px-12 bg-white rounded-3xl">
                   <div className="xl:px-10">
                     <span className="mb-5 text-xl">Last Orders</span>
                     <hr/>
                     {newOrderList.map((order) => {
                       return (
-                        <div key={order._id} className="relative flex flex-wrap items-center xl:justify-between -mx-4 mb-8 pb-8 border-b border-gray-200 border-opacity-40">
+                        <div key={order._id} className="relative flex flex-wrap items-center xl:justify-between -mx-4 my-8 pb-8 border-b border-gray-200 border-opacity-40">
                           <div className="w-full md:w-auto px-4 mb-6 xl:mb-0">
                             <a
                               className="block mb-5 text-xl font-heading font-medium hover:underline"
-                              href={`/orderDetail/${order._id}`}
+                              href={`/orderHistory/${order._id}`}
                             >
                               #Order{(order._id).slice(17).toUpperCase()}
                             </a>
@@ -90,45 +90,13 @@ export default function orderList() {
                 </div>
               </div>
               <div className="w-full md:w-4/12 xl:w-3/12 px-4">
-                <div className="mb-14">
-                  <h2 className="mb-7 md:mt-6 text-3xl font-heading font-medium">
-                    Order Details
-                  </h2>
-                  <div className="flex items-center justify-between py-4 px-10 mb-3 leading-8 bg-white bg-opacity-50 font-heading font-medium rounded-3xl">
-                    <span>Status</span>
-                    <span className="flex items-center text-xl">
-                      <span className="mr-2 text-base">Pending</span>
-                      {/* <span>{orderList[0].status}</span> */}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between py-4 px-10 mb-3 leading-8 bg-white bg-opacity-50 font-heading font-medium rounded-3xl">
-                    <span>Shipping</span>
-                    <span className="flex items-center text-xl">
-                      <span className="mr-2 text-base">$</span>
-                      <span>10,00</span>
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between py-4 px-10 mb-6 leading-8 bg-white font-heading font-medium rounded-3xl">
-                    <span>Total</span>
-                    <span className="flex items-center text-xl text-blue-500">
-                      <span className="mr-2 text-base">$</span>
-                      <span>720,70</span>
-                    </span>
-                  </div>
-                  <a
-                    className="inline-block w-full lg:w-auto py-2 px-3 text-medium leading-6 text-white font-medium tracking-tighter font-heading text-center hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-xl bg-black"
-                    href="#"
-                  >
-                    Cancel Order
-                  </a>
-                </div>
                 <div className="text-center md:text-left">
                   <img
                     className="block mb-9 mx-auto md:ml-0"
-                    src="uinel-assets/images/ecommerce-cart/procents.svg"
+                    src={'https://images.unsplash.com/photo-1691479249303-52c879b6e2aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80'}
                     alt=""
                   />
-                  <h4 className="mb-5 text-4xl font-heading font-medium">Shipping</h4>
+                  <h4 className="mb-5 text-4xl font-heading font-medium">Shipping Cart</h4>
                 </div>
               </div>
             </div>
