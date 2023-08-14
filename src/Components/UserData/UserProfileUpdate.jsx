@@ -20,7 +20,7 @@ const userRes = {
     "address[shipping][pincode]": "",
     "address[shipping][city]": "",
 }
-export default function Register() {
+export default function UserUpdate() {
     const [isLoading, setIsLoading] = useState(false)
     const [formData, setFormData] = useState(userRes)
     const [img, setImg] = useState(null)
@@ -122,7 +122,7 @@ export default function Register() {
                                     </label>
                                     <div className="mt-2">
                                         <input
-                                            required 
+                                            required
                                             type="text"
                                             name="fname"
                                             id="first-name"
@@ -330,7 +330,8 @@ export default function Register() {
                 </div>
             </form>
             <Footer />
-            <ToastContainer position="top-center" theme="colored" closeOnClick={false}/>
+            <ToastContainer position="top-center" theme="colored" closeOnClick={false} />
         </>
     )
 }
+

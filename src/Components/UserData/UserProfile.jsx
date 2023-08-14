@@ -94,7 +94,9 @@ export default function UserProfile() {
               </div>
               <div id="c1" className="card">
                 <div className="card-info">
-                  <img src={userDetails.profileImage} alt="" className="rounded-full mb-5 h-24" />
+                  <div className="bg-slate-600 rounded-full mb-5 h-24 w-24 content-center">
+                    <img src={userDetails.profileImage} alt="" className="rounded-full text-center" />
+                  </div>
                   <div className="card-title">{userDetails.name}</div>
                   <div className="card-subtitle">Sub-title</div>
                 </div>

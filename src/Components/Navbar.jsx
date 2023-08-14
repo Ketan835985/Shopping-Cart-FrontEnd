@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Fragment, useEffect, useState } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
+import { Dialog, Popover, Tab, Transition, Menu } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from './noun-shopping-17962.svg'
 
@@ -123,7 +124,6 @@ const navigation = {
         },
     ],
     pages: [
-        { name: 'Company', href: '/About' },
         { name: 'Stores', href: '/Products' },
         { name: 'New Product', href: '/ProductCreate' },
     ],
@@ -158,11 +158,11 @@ export default function Navbar() {
         }
     };
 
-    const cartDetail = async() =>{
-        const response = await fetch(`http://localhost:3000/users/${userId}/cart`,{
+    const cartDetail = async () => {
+        const response = await fetch(`http://localhost:3000/users/${userId}/cart`, {
             method: 'GET',
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('token'),
+            headers: {
+                authorization: 'Bearer ' + localStorage.getItem('token'),
             }
         })
 
@@ -177,15 +177,15 @@ export default function Navbar() {
                     name: user.fname + ' ' + user.lname,
                     profileImage: user.profileImage,
                 });
-                cartDetail().then((data) =>{
+                cartDetail().then((data) => {
                     setCartItem(
                         data.totalItems
                     )
                 })
-                
+
             }
         })
-        
+
 
     }, []);
 
@@ -309,7 +309,7 @@ export default function Navbar() {
                                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                                     <div className="flow-root">
                                         <a href="/login" className="-m-2 block p-2 font-medium text-gray-900">
-                                        {(localStorage.getItem('token')) ? <button onClick={() => localStorage.clear()}>Sign Out</button> : "Sign In"}
+                                            {(localStorage.getItem('token')) ? <button onClick={() => localStorage.clear()}>Sign Out</button> : "Sign In"}
                                         </a>
                                     </div>
                                     <div className="flow-root">
@@ -460,8 +460,10 @@ export default function Navbar() {
                                 </div>
                             </Popover.Group>
 
+
+
                             <div className="ml-auto flex items-center">
-                                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                                {/* <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                                     <a href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                                         {(localStorage.getItem('token')) ? <button onClick={() => localStorage.removeItem("token")}>Sign Out</button> : "Sign In"}
                                     </a>
@@ -470,26 +472,127 @@ export default function Navbar() {
                                     <a href="/register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                                         {(localStorage.getItem('token')) ? "" : "Create a new account"}
                                     </a>
-                                </div>
-
-                                <div className="hidden lg:ml-8 lg:flex">
-                                    <a href={(localStorage.getItem('token') ? "/UserProfile" : "/login")} className="flex items-center text-gray-700 hover:text-gray-800">
-                                        <img
-                                            src={userDetails.profileImage}
-                                            alt=""
-                                            className="block h-auto w-5 flex-shrink-0 rounded-full"
-                                        />
-                                        <span className="ml-3 block text-sm font-medium">{userDetails.name}</span>
-                                    </a>
-                                </div>
-
+                                </div> */}
                                 {/* Search */}
-                                <div className="flex lg:ml-6">
-                                    <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                                <div className="flex lg:ml-6 mr-3 ">
+                                    <input type="text" className=' bg-white border-spacing-16 mr-1 rounded-xl p-2' placeholder='Search Here' />
+                                    <button className="p-2 text-gray-400 hover:text-gray-500">
                                         <span className="sr-only">Search</span>
                                         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                                    </a>
+                                    </button>
                                 </div>
+                                <Menu as="div" className="relative inline-block text-left">
+                                    <div>
+                                        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                            Settings
+                                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                        </Menu.Button>
+                                    </div>
+
+                                    <Transition
+                                        as={Fragment}
+                                        enter="transition ease-out duration-100"
+                                        enterFrom="transform opacity-0 scale-95"
+                                        enterTo="transform opacity-100 scale-100"
+                                        leave="transition ease-in duration-75"
+                                        leaveFrom="transform opacity-100 scale-100"
+                                        leaveTo="transform opacity-0 scale-95"
+                                    >
+                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <div className="py-2">
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href={(localStorage.getItem('token') ? "/UserProfile" : "/login")}
+                                                            className={classNames(
+                                                                active ? "flex items-center text-gray-700 hover:text-gray-800" : ' flex items-center text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                            <img
+                                                                src={userDetails.profileImage}
+                                                                alt=""
+                                                                className="block h-auto w-5 flex-shrink-0 rounded-full"
+                                                            />
+                                                            <span className="ml-3 block text-sm font-medium">{userDetails.name}</span>
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="/About"
+                                                            className={classNames(
+                                                                active ? 'text-sm font-medium bg-gray-100 text-gray-900' : ' text-sm font-medium text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                            Support
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="#"
+                                                            className={classNames(
+                                                                active ? 'text-sm font-medium bg-gray-100 text-gray-900' : 'text-sm font-medium text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                            License
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                {(localStorage.getItem('token')) && <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                                            <button
+                                                                onClick={() => localStorage.removeItem("token")}
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block w-full px-4 py-2 text-left text-sm'
+                                                                )}
+                                                            >
+                                                                Sign out
+                                                            </button>
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>}
+                                                {(!localStorage.getItem('token')) && <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                                            <button
+                                                                onClick={() => localStorage.removeItem("token")}
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block w-full px-4 py-2 text-left text-sm'
+                                                                )}
+                                                            >
+                                                                Sign In
+                                                            </button>
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>}
+                                                {(!localStorage.getItem('token')) && <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="/register"
+                                                            className={classNames(
+                                                                active ? 'text-sm font-medium hover:text-gray-800 bg-gray-100 text-gray-900' : 'text-sm font-medium text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                            Create a new account
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>}
+                                            </div>
+                                        </Menu.Items>
+                                    </Transition>
+                                </Menu>
+
+
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">

@@ -33,3 +33,16 @@
 input[type="file"]:checked + .message {
   display: block;
 }
+
+
+.logoImage-contain{
+  text-align: center;
+  background-image: url("https://images.unsplash.com/photo-1500964757637-c85e8a162699?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fG1peGVkJTIwY29sb3Vyc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60");
+  font-weight: 800;
+  font-size: 3rem;
+  color: transparent;
+  background-position: center;
+  background-size: cover;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
