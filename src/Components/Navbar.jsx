@@ -462,20 +462,9 @@ export default function Navbar() {
 
 
 
-                            <div className="ml-auto flex items-center">
-                                {/* <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                    <a href="/login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        {(localStorage.getItem('token')) ? <button onClick={() => localStorage.removeItem("token")}>Sign Out</button> : "Sign In"}
-                                    </a>
-                                    <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-
-                                    <a href="/register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                                        {(localStorage.getItem('token')) ? "" : "Create a new account"}
-                                    </a>
-                                </div> */}
-                                {/* Search */}
+                            <div className="ml-auto flex items-center ">
                                 <div className="flex lg:ml-6 mr-3 ">
-                                    <input type="text" className=' bg-white border-spacing-16 mr-1 rounded-xl p-2' placeholder='Search Here' />
+                                    <input type="text" className=' bg-white border-spacing-16 mr-1 rounded-xl p-2 max-lg:hidden' placeholder='Search Here' />
                                     <button className="p-2 text-gray-400 hover:text-gray-500">
                                         <span className="sr-only">Search</span>
                                         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
@@ -483,7 +472,7 @@ export default function Navbar() {
                                 </div>
                                 <Menu as="div" className="relative inline-block text-left">
                                     <div>
-                                        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 lg:self-stretch">
                                             Settings
                                             <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                                         </Menu.Button>
@@ -591,10 +580,6 @@ export default function Navbar() {
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>
-
-
-
-                                {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
                                     <a href={(localStorage.getItem('token') ? "/UserCart" : "/login")} className="group -m-2 flex items-center p-2">
                                         <ShoppingBagIcon

@@ -4,49 +4,82 @@ import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import LoadingSpin from "../Loader/LoadingSpin";
+import Footer from "../Footer";
+
 
 
 export default function UserCart() {
     const userId = localStorage.getItem('userId');
-    const [cartDetails, setCartDetails] = useState({})
+    let [cartDetails, setCartDetails] = useState({})
     let [cartItems, setCartItems] = useState([])
     let [method, setMethod] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    const handelPayment = () => {
+        if (method == "" && cartDetails.totalItems > 0) {
+            toast.error("please select a payment method")
+        }
+        else if (method && cartDetails.totalItems == 0) {
+            toast.info("please add some products : Empty Cart")
+        }
+    }
 
 
-    const removeProductCtrl = async (productId, removeProduct) => {
-        const response = await fetch(`http://localhost:3000/users/${userId}/cart`, {
+    const handelRemoveProduct = (productId, removeProduct) => {
+        setLoading(true)
+        fetch(`http://localhost:3000/users/${userId}/cart`, {
             method: 'PUT',
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem('token'),
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({productId: productId, removeProduct: removeProduct })
+            body: JSON.stringify({ productId: productId, removeProduct: removeProduct })
         })
-        const result = await response.json();
-        return result
+            .then((res) => res.json())
+            .then((res) => {
+                if (res.status === true) {
+                    toast.success(res.message)
+                    fetchDetail()
+                    setLoading(false)
+                }
+                else {
+                    toast.error(res.message)
+                    setLoading(false)
+                }
+            })
     }
 
-    const handelRemoveProduct = (productId, removeProduct) => {
-        // console.log(productId, removeProduct)
-        removeProductCtrl(productId, removeProduct).then(()=>{
-            window.location.reload()
-            // console.log(data)
-        })
-    }
 
-
-    const fetchDetail = async () => {
-        const response = await fetch(`http://localhost:3000/users/${userId}/cart`, {
+    const fetchDetail = () => {
+        setLoading(true)
+        fetch(`http://localhost:3000/users/${userId}/cart`, {
             method: 'GET',
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem('token'),
             }
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            if (data.status === true) {
+                setLoading(false)
+                setCartDetails(data.data)
+                setCartItems(data.data.items)
+            }
+            else {
+                setLoading(false)
+                toast.error(data.message)
+            }
         })
-        const cart = await response.json()
-        return (await cart).data;
     }
-    async function addProduct(productId) {
-        const cartDetail = await fetch(`http://localhost:3000/users/${userId}/cart`, {
+    const handelMethod = (e) => {
+        setMethod(e.target.value)
+        if (e.target.value == "")
+            return toast.error("select valid payment method")
+    }
+    const handelAddPro = (productId) => {
+        setLoading(true)
+        fetch(`http://localhost:3000/users/${userId}/cart`, {
             method: 'POST',
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -54,31 +87,26 @@ export default function UserCart() {
             },
             body: JSON.stringify({ productId: productId })
         })
-    }
-    const handelMethod = (e) => {
-        setMethod(e.target.value)
-        if (e.target.value == "") return toast.error("select valid payment method")
-    }
-
-    const handelAddPro = (productId) => {
-        addProduct(productId).then(() => {
-            toast.success("successfully")
-            window.location.reload()
-        })
+            .then((res) => res.json())
+            .then(() => {
+                toast.success("successfully")
+                fetchDetail()
+                setLoading(false)
+            })
+            .catch((error) => {
+                setLoading(false)
+                console.error(error)
+            })
     }
     useEffect(() => {
-        fetchDetail().then((cart) => {
-            setCartDetails(cart)
-            setCartItems(cart.items)
-            
-        })
+        fetchDetail()
     }, [])
-    // console.log(cartItems)
-    // console.log(quantity)
     return (
+
         <div>
+            {loading && <LoadingSpin />}
             <Navbar />
-            <div className="container mx-auto mt-10">
+            {!loading && <div className="container mx-auto mt-10">
                 <div className="flex shadow-md my-8 mx-12 shadow-slate-500">
                     <div className="w-3/4 bg-white p-20 ">
                         <div className="flex justify-between border-b pb-8">
@@ -101,7 +129,6 @@ export default function UserCart() {
                         </div>
                         <div>
                             {cartItems.map((product) => {
-                                // {console.log(product.productId.title)}
                                 return (
                                     <div key={product._id} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
                                         <div className="flex w-2/5">
@@ -122,14 +149,10 @@ export default function UserCart() {
                                             </div>
                                         </div>
                                         <div className="flex justify-center w-1/5">
-                                            <button className="fill-current text-gray-600 w-3" onClick={() => handelRemoveProduct(product.productId._id, (product.quantity==1 ? 0 : 1))} >
+                                            <button className="fill-current text-gray-600 w-3" onClick={() => handelRemoveProduct(product.productId._id, (product.quantity == 1 ? 0 : 1))} >
                                                 -
                                             </button>
-                                            <input
-                                                className="mx-2 border text-center w-8"
-                                                type="text"
-                                                defaultValue={product.quantity}
-                                            />
+                                            <span className="mx-2 border text-center w-8">{product.quantity}</span>
                                             <button className="fill-current text-gray-600 w-3 " onClick={() => handelAddPro(product.productId._id)}>
                                                 +
                                             </button>
@@ -140,7 +163,6 @@ export default function UserCart() {
                                 )
                             })}
                         </div>
-
                         <a href="/Products" className="flex font-semibold text-indigo-600 text-sm my-10">
                             <svg
                                 className="fill-current mr-2 text-indigo-600 w-4"
@@ -167,8 +189,8 @@ export default function UserCart() {
                                 Shipping
                             </label>
                             <select className="block p-2 text-gray-600 w-full text-sm">
-                                <option value = {0}>Normal Shipping  - 0.00 ₹</option>
-                                <option value = {10}>Standard shipping - 10.00 ₹</option>
+                                <option value={0}>Normal Shipping  - 0.00 ₹</option>
+                                <option value={10}>Standard shipping - 10.00 ₹</option>
 
                             </select>
                         </div>
@@ -187,16 +209,18 @@ export default function UserCart() {
                                 <span>Total cost</span>
                                 <span>{cartDetails.totalPrice} ₹</span>
                             </div>
-                            <a href={(method == "COD" && cartDetails.totalItems > 0) ? "/orderFilledForm" : (method == "Card" && cartDetails.totalItems > 0 ? `/OrderCardPayment/${cartDetails.totalPrice}` : "/UserCart")}>
-                                <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full mb-10" disabled={cartDetails.totalItems==0 ? "true" : ""}>
+                            <a href={(method == "COD" && cartDetails.totalItems > 0) ? "/orderFilledForm" : (method == "Card" && cartDetails.totalItems > 0 && `/OrderCardPayment/${cartDetails.totalPrice}`)}>
+                                <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full mb-10" onClick={handelPayment}>
                                     Checkout
                                 </button>
                             </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <ToastContainer position="top-center" theme="colored" closeOnClick={false} />
+            </div>}
+            <ToastContainer position="top-right" theme="colored" closeOnClick={false} />
+           
+            <Footer/>
         </div>
     )
 }

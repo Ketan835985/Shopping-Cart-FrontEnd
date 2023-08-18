@@ -87,7 +87,7 @@ export default function ProductList() {
 
         }
         else if (filter === 'Newest') {
-            return products.sort((a, b) => b.createdAt - a.createdAt)
+            return products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         }
         else if (filter === 'Price: Low to High') {
             return products.sort((a, b) => a.price - b.price)

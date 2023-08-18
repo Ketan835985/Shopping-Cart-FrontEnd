@@ -90,7 +90,7 @@ export default function ProductCreation() {
                 <div>
                     <Navbar />
                     <form onSubmit={handleSubmit}>
-                        <div className="space-y-10 flex justify-center gap-y-7 mb-10 flex-coli items-center">
+                        <div className="space-y-10 flex justify-center gap-y-7 mb-10 flex-coli items-center px-4">
                             <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-base font-bold leading-7 text-gray-900">Product Creation Form</h2>
                                 <p className="mt-1 text-sm leading-6 text-gray-600">

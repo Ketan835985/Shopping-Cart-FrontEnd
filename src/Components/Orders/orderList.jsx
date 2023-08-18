@@ -30,7 +30,7 @@ export default function orderList() {
     })
   }, [])
 
-  const newOrderList = orderList.slice(orderList.length-4)
+  const newOrderList = orderList.slice(orderList.length - 4)
   // console.log(orderList)
 
   return (
@@ -44,26 +44,31 @@ export default function orderList() {
                 {`Your Order's`}
               </h1>
             </div>
-            <div className="flex flex-wrap -mx-4 mb-14 xl:mb-12">
+            <div className="flex flex-wrap -mx-4 mb-10 xl:mb-12">
               <div className="w-full md:w-8/12 xl:w-9/12 px-4 mb-12 md:mb-0">
                 <div className="py-12 px-8 md:px-12 bg-white rounded-3xl">
                   <div className="xl:px-10">
                     <span className="mb-5 text-xl">Last Orders</span>
-                    <hr/>
+                    <hr />
                     {newOrderList.map((order) => {
                       return (
                         <div key={order._id} className="relative flex flex-wrap items-center xl:justify-between -mx-4 my-8 pb-8 border-b border-gray-200 border-opacity-40">
                           <div className="w-full md:w-auto px-4 mb-6 xl:mb-0">
-                            <a
-                              className="block mb-5 text-xl font-heading font-medium hover:underline"
-                              href={`/orderHistory/${order._id}`}
-                            >
-                              #Order{(order._id).slice(17).toUpperCase()}
-                            </a>
+                            <span className="flex items-center">
+                              <a
+                                className="block mb-5 text-xl font-heading font-medium hover:underline mr-5"
+                                href={`/orderHistory/${order._id}`}
+                              >
+                                #Order{(order._id).slice(17).toUpperCase()}
+                              </a>
+                              <button className={order.status === 'cancled' ? "bg-red-500 font-semibold hover:bg-red-600 py-1 text-sm text-white uppercase w-full mb-5 rounded-lg" : (order.status === 'pending' ? "bg-gray-500 font-semibold hover:bg-gray-600 py-1 text-sm text-white uppercase w-full mb-5 rounded-lg" : "bg-indigo-500 font-semibold hover:bg-indigo-600 py-1 text-sm text-white uppercase w-full mb-5 rounded-lg")}  >
+                                {order.status === 'cancled' ? "Cancled" : order.status}
+                              </button>
+                            </span>
                             <div className="flex flex-wrap">
                               <p className="mr-4 text-sm font-medium">
                                 <span className="font-heading">Replace:</span>
-                                <span className="ml-2 text-gray-400">{order.cancellable  ? "YES" : "NO"}</span>
+                                <span className="ml-2 text-gray-400">{order.cancellable ? "YES" : "NO"}</span>
                               </p>
                               <p className="text-sm font-medium">
                                 <span>Order Date:</span>
@@ -74,7 +79,7 @@ export default function orderList() {
                           <div className="w-full xl:w-auto px-4 mb-6 xl:mb-0 mt-6 xl:mt-0">
                             <div className="flex items-center flex-col">
                               <h4 className="mr-4 font-heading font-medium">Total Items: {order.totalItems}</h4>
-                              
+
                               <h4 className="mr-4 font-heading font-medium">Quantity: {order.totalQuantity}</h4>
                             </div>
                           </div>
