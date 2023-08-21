@@ -18,6 +18,7 @@ export default function UpdateFromModel(props) {
         "address[billing][city]": "",
         "address[billing][pincode]": "",
     })
+    const check = useRef(false)
     const handleImageChange = (event) => {
         setProfileImage(event.target.files[0]);
     };
@@ -29,8 +30,8 @@ export default function UpdateFromModel(props) {
                 updatedData.append(key, formData[key]);
             }
         }
-        console.log(profileImage);
-        if (profileImage !== null) {
+        // console.log(profileImage);
+        if (profileImage != null) {
             updatedData.append('profileImage', profileImage);
         }
         fetch(`http://localhost:3000/user/${userId}/profile`, {
@@ -54,6 +55,7 @@ export default function UpdateFromModel(props) {
             })
     }
 
+    
     const handelUpdateButton = () =>{
         updateFormHandler()
         props.fetchUser()
@@ -65,8 +67,6 @@ export default function UpdateFromModel(props) {
             ...formData,
             [e.target.name]: e.target.value
         })
-        // console.log("work", formData)
-
     }
 
     return (
@@ -97,7 +97,7 @@ export default function UpdateFromModel(props) {
                         >
                             <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg p-5">
                                 <form >
-                                    <input type='checkbox' name = "Photo" onChange={(e)=>console.log( e.target.value)} />
+                                    <input type='checkbox' name = "Photo"  aria-checked value={check} />
                                     <label htmlFor='Profile' > Profile Photo :
                                         {" "}
                                         <input
@@ -142,7 +142,7 @@ export default function UpdateFromModel(props) {
                                             onChange={handelSubmit}
                                             type="text"
                                             required
-                                            name="street"
+                                            name="address[billing][street]"
                                             className="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm"
                                             placeholder="Address*"
                                             defaultValue={props.FromData.address.street}
@@ -154,7 +154,7 @@ export default function UpdateFromModel(props) {
                                             <input
                                                 onChange={handelSubmit}
                                                 type="text"
-                                                name="city"
+                                                name="address[billing][city]"
                                                 id='city'
                                                 required
                                                 className="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm"
@@ -167,7 +167,7 @@ export default function UpdateFromModel(props) {
                                             <input
                                                 onChange={handelSubmit}
                                                 type="text"
-                                                name="pincode"
+                                                name="address[billing][pincode]"
                                                 id='pincode'
                                                 className="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm"
                                                 placeholder="Pincode*"
